@@ -47,13 +47,13 @@ def main(hostname: str, path: pathlib.Path, mount: str,
             },
         }
 
-        logging.debug("Posting to %r: headers %r json %r",
-                      ha_rest_api_url, headers, json)
+        url = os.path.join(
+            ha_rest_api_url,
+            "states",
+            f"sensor.{hostname}_{mount}_disk_usage")
+        logging.debug("Posting to %r: json %r", url, json)
         try:
-            response = requests.post(os.path.join(
-                ha_rest_api_url,
-                "states",
-                f"sensor.{hostname}_{mount}_disk_usage"),
+            response = requests.post(url,
                                      headers=headers,
                                      json=json)
             logging.debug("Got response %r", response)
